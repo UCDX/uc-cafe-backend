@@ -53,3 +53,19 @@ create table user_purchases (
     foreign key(purchase_id) references purchases(id),
     foreign key(product_id) references products(id)
 );
+
+create table admins (
+	id int unsigned primary key,
+	username varchar(20) not null,
+	email varchar(255) not null,
+	fullname varchar(50) not null,
+	passwd varchar(255) not null
+);
+
+create table authorized_apps (
+	id int unsigned primary key,
+	name varchar(255) not null,
+	api_key varchar(700) not null unique,
+	created_at datetime not null
+);
+
