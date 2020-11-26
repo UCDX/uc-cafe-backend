@@ -1,4 +1,4 @@
-const cryptService = require('../../services/crypt')
+const cryptService = require('../../services/crypt.service')
 const userService = require('../../services/user.service')
 
 module.exports = {
@@ -10,16 +10,16 @@ module.exports = {
       const userId = await userService.userAuthentication(username, passwd)
 
       if (!userId) {
-        return res.status(401).send({message: 'Invalid credentials'})
+        return res.status(401).json({message: 'Invalid credentials'})
       }
 
       const token = cryptService.generateJWT({user_id: userId})
 
-      res.status(200).send({
+      res.status(200).json({
         session_token: token
       })
     } catch (error) {
-      console.log(error)
+      res.status(500).end()
     }
   }
 }

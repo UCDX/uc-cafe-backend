@@ -1,4 +1,4 @@
-const Validator = require('better-validator')
+const { Validator, parseValidatorOutput } = require('../services/validator.service')
 
 module.exports = {
   checkSignInData: function(req, res, next) {
@@ -8,10 +8,9 @@ module.exports = {
       obj('passwd').required().isString()
     })
 
-    const errors = validator.run();
+    const errors = parseValidatorOutput(validator.run());
     if (errors.length > 0) {
-      console.log(errors)
-      return res.status(400).send({message: 'Something is wrong with the data provided'})
+      return res.status(400).json({messages: errors})
     }
 
     next()
