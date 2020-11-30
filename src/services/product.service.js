@@ -1,0 +1,69 @@
+const mariadb = require('./mariadb.service')
+
+module.exports = {
+  /**
+   * Perform a search in the database retrieving all the product records that match with 'search' 
+   * and/or 'category' parameter.
+   * It can selects chunks of records of 'limits' size. The chunk number is defined by 'pag'.
+   * @param {string} search 
+   * @param {int[]} category 
+   * @param {int} pag 
+   * @param {int} limits 
+   * @returns {Object}
+   *  * products: Object.
+   *  * total: int.
+   */
+  searchProducts: async function(search = '', category = [], pag = 0, limits = 10) {
+    let query = `
+      SELECT 
+        products.id,
+        products.name,
+        products.image_url,
+        products.price,
+        products.short_description,
+        categories.name AS category
+      FROM
+        products
+          INNER JOIN
+        categories ON products.category_id = categories.id
+    `
+
+    if (category.length) {
+      query += `WHERE (categories.id = ? `
+      for (i = 1; i < category.length; i++) {
+        query += `OR categories.id = ? `
+      }
+      query += `) AND`
+    } else {
+      query += `WHERE `
+    }
+
+    search = search.split(' ').join('|')
+    query += `
+      (products.name REGEXP ? OR
+      products.price REGEXP ? OR
+      products.description REGEXP ? OR
+      products.short_description REGEXP ? OR
+      categories.name REGEXP ?)
+      LIMIT ${pag * limits}, ${limits};
+    `
+
+    // Counts how much records there are.
+    let countQuery = query.split('\n')
+    countQuery.splice(2, 6, 'COUNT(*) AS total')
+    // Remove 'limit' to select all records.
+    countQuery.pop(); countQuery.pop()
+    countQuery = countQuery.join('\n')
+    countQuery += ';'
+
+    let arguments = category
+    arguments.push(search, search, search, search, search)
+
+    let productsResult = await mariadb.query(query, arguments)
+    let countResult = await mariadb.query(countQuery, arguments)
+    return {
+      products: productsResult,
+      total: countResult[0].total
+    }
+  }
+}
