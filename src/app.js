@@ -1,9 +1,6 @@
-// Including dependencies.
-const express = require('express')
+// Environment variables. Keep loading environment variables at the top
+// or stuff that depends on thery won't work.
 const path =  require('path')
-const morgan = require('morgan')
-
-// Environment variables.
 let envpath = path.join(__dirname, '..', 'etc', '.env')
 let res = require('dotenv').config({ path: envpath })
 if(res.error) {
@@ -12,11 +9,18 @@ if(res.error) {
   process.exit(1)
 }
 
+// Including dependencies.
+const express = require('express')
+const morgan = require('morgan')
+const general = require('./middlewares/general')
+
 const app = express()
 
 // Middlewares.
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(general.allowExternalConnections)
+app.use(general.appAuth)
 app.use(morgan('dev'))
 app.use('/api/v1/', require('./api/interfaces'))
 
