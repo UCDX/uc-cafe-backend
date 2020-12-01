@@ -11,8 +11,8 @@ module.exports = {
       )
       
       res.status(200).json({
-        messages: ['Done'],
-        data: result
+        products: result.products,
+        total: result.total
       })
     } catch (error) {
       res.status(500).end()

@@ -10,7 +10,7 @@ module.exports = {
       const userId = await userService.userAuthentication(username, passwd)
 
       if (!userId) {
-        return res.status(401).json({message: 'Invalid credentials'})
+        return res.status(401).json({messages: ['Invalid credentials']})
       }
 
       const token = cryptService.generateJWT({user_id: userId})
