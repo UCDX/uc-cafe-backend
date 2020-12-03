@@ -5,5 +5,10 @@ module.exports = {
   searchProducts: [
     productMidd.checkSearchProductsParams,
     productCtrl.searchProducts
+  ],
+
+  addComment: [
+    productMidd.checkAddCommentParams,
+    productCtrl.addComment
   ]
 }

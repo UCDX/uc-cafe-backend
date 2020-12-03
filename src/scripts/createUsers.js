@@ -2,8 +2,8 @@ const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 const mariadb = require('../services/mariadb.service.js')
 
-// la entrada debe ser de la siguiente manera
-// usuario contraseña nomnbre apellidos
+// inputs should be like this
+// user password name surnames
 // 180300352 S3cr3tPass* Roberto Gomez Bolaños
 var stdin_username = process.argv[2];
 var stdin_hashed = hash.update(process.argv[3]).digest('hex');

@@ -65,5 +65,28 @@ module.exports = {
       products: productsResult,
       total: countResult[0].total
     }
+  },
+
+  /**
+   * Inserts a review of a certain product by an specific user
+   * 
+   * @param {*} product_id 
+   * @param {*} user_id 
+   * @param {*} comment 
+   * @returns {Object}
+   * * comment: comment
+   */
+  addComment: async function(product_id = 1, user_id = 1, comment = '') {
+    let query = `
+      INSERT INTO reviews(comment, user_id, product_id)
+      VALUES
+      (?,?,?);
+      `
+    let arguments = [comment, user_id, product_id]
+    let addComment = await mariadb.query(query, arguments)
+    //console.log(`${product_id} y comment ${comment}\n user is ${user_id}`);
+    return {
+      comment: comment
+    }
   }
 }
