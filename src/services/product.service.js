@@ -1,3 +1,4 @@
+const { IsNumber } = require('better-validator/src/IsNumber')
 const mariadb = require('./mariadb.service')
 
 module.exports = {
@@ -64,6 +65,43 @@ module.exports = {
     return {
       products: productsResult,
       total: countResult[0].total
+    }
+  },
+
+  /**
+   * Inserts a review of a certain product by an specific user
+   * 
+   * @param {*} product_id 
+   * @param {*} user_id 
+   * @param {*} comment 
+   * @param {*} score
+   * @returns {Object}
+   * * comment: comment
+   */
+  addComment: async function(product_id = 1, user_id = 1, comment = '', score = '') {
+ 
+    if(typeof score !== 'undefined' && score !== ''){
+      var query = `
+      INSERT INTO reviews(user_id, product_id, score, comment)
+      VALUES
+      (?,?,?,?);
+      `
+      var arguments = [user_id, product_id, score, comment]
+    }else{
+      var query = `
+      INSERT INTO reviews(user_id, product_id, comment)
+      VALUES
+      (?,?,?);
+      `
+      var arguments = [user_id, product_id, comment]
+    }
+
+
+    let addComment = await mariadb.query(query, arguments)
+/*     console.log(typeof score !== 'undefined')
+    console.log(score !== '') */
+    return {
+      comment: comment
     }
   }
 }

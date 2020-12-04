@@ -17,5 +17,24 @@ module.exports = {
     } catch (error) {
       res.status(500).end()
     }
+  },
+
+  addComment: async function(req, res) {
+
+    //console.log(typeof req.body.score !== 'undefined')
+    try {
+        let result = await productService.addComment(
+          req.params.product_id,
+          req.body.user_id,
+          req.body.comment,
+          req.body.score
+        )  
+    
+      res.status(200).json({
+        comment: result.comment
+      })
+    } catch (error) {
+      res.status(500).end()
+    }
   }
 }

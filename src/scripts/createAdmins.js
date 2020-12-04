@@ -13,8 +13,8 @@ const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 const mariadb = require('../services/mariadb.service.js')
 
-// la entrada debe ser de la siguiente manera
-// usuario email contraseña y el nombre completo
+// inputs should be like this
+// user email password full name
 // administrator joe@PiedPiper.org S3cr3tPass* Roberto Gomez Bolaños
 var stdin_username = process.argv[2];
 var stdin_email = process.argv[3];
