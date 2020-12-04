@@ -65,5 +65,21 @@ module.exports = {
     }
 
     return res.status(400)
+  },
+
+  checkGetProductParam: function(req, res, next) {
+    let validator = new Validator()
+
+    req.params.product_id = parseNumberIfApplicable(req.params.product_id)
+    validator(req.params).isObject(obj => {
+      obj('product_id').isNumber().integer().isPositive()
+    })
+
+    let errors = parseValidatorOutput(validator.run());
+    if (errors.length > 0) {
+      return res.status(400).json({messages: errors})
+    }
+
+    next()
   }
 }

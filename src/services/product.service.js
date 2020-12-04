@@ -169,5 +169,38 @@ module.exports = {
     return {
       categories: arr
     }
+  },
+
+  /**
+   * Gets the details of a certain product.
+   * @param {int} product_id 
+   * @returns 
+   *  * products: Object
+   */
+  getProduct: async function(product_id) {
+    if (!product_id) {
+      return null;
+    }
+
+    let query = `
+      SELECT 
+        products.id,
+        products.name,
+        products.image_url,
+        products.price,
+        products.description,
+        products.short_description,
+        categories.name AS category
+      FROM
+        products
+          INNER JOIN
+        categories ON products.category_id = categories.id
+      WHERE
+        products.id = ?
+      LIMIT 1;
+    `
+
+    let resultQuery = await mariadb.query(query, [product_id])
+    return resultQuery[0]
   }
 }
