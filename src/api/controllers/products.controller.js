@@ -21,7 +21,7 @@ module.exports = {
 
   addComment: async function(req, res) {
 
-    console.log(typeof req.body.score !== 'undefined')
+    //console.log(typeof req.body.score !== 'undefined')
     try {
         let result = await productService.addComment(
           req.params.product_id,
@@ -34,7 +34,6 @@ module.exports = {
         comment: result.comment
       })
     } catch (error) {
-      console.log("miaauauuuuuu")
       res.status(500).end()
     }
   }
