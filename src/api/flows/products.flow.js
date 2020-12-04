@@ -10,5 +10,10 @@ module.exports = {
   addComment: [
     productMidd.checkAddCommentParams,
     productCtrl.addComment
+  ],
+
+  getReviews: [
+    productMidd.checkGetReviews,
+    productCtrl.getReviews
   ]
 }
