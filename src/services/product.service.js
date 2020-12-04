@@ -1,4 +1,3 @@
-const { IsNumber } = require('better-validator/src/IsNumber')
 const mariadb = require('./mariadb.service')
 
 module.exports = {
@@ -102,6 +101,50 @@ module.exports = {
     console.log(score !== '') */
     return {
       comment: comment
+    }
+  },
+
+  /**
+   * Gets the reviews of an specific product, mean score and number of reviews
+   * @param {*} product_id 
+   * @returns {Object}
+   *  * score: float
+      * no_reviews: int
+      * comments: string
+   */
+  getReviews: async function(product_id = 1) {
+    let arguments = [product_id]
+    
+    let queryAVG = `SELECT AVG(score) FROM reviews WHERE product_id = ?;`
+    let queryCount = `
+      SELECT COUNT(comment)
+      FROM reviews 
+      WHERE product_id = ?
+      AND comment IS NOT NULL
+      AND comment <> ''
+      ;`
+
+    let queryArr = `
+    SELECT comment 
+    FROM reviews 
+    WHERE product_id = ?
+    AND comment IS NOT NULL
+    AND comment <> ''
+    ;`
+
+    let getAvgReviews = await mariadb.query(queryAVG, arguments)
+    let getCountReviews = await mariadb.query(queryCount, arguments)
+    let getArrReviews = await mariadb.query(queryArr, arguments)
+
+    let arr = []
+    getArrReviews.forEach((val, index) => {
+        arr.push(val["comment"])
+    });
+    
+    return {
+      score: getAvgReviews[0]["AVG(score)"],
+      no_reviews: getCountReviews[0]["COUNT(comment)"],
+      comments: arr
     }
   }
 }

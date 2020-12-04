@@ -51,5 +51,19 @@ module.exports = {
     }
 
     return res.status(400)
+  },
+
+  checkGetReviews: function(req, res, next){
+    let validator = new Validator()
+    
+    if(typeof req.params.product_id !== 'undefined'){
+      req.params.product_id = parseNumberIfApplicableInt(req.params.product_id)
+    }
+
+    if(validator(req.params.product_id).isNumber()){
+      next()
+    }
+
+    return res.status(400)
   }
 }
