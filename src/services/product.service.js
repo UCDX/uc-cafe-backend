@@ -1,3 +1,4 @@
+const { IsNumber } = require('better-validator/src/IsNumber')
 const mariadb = require('./mariadb.service')
 
 module.exports = {
@@ -73,18 +74,38 @@ module.exports = {
    * @param {*} product_id 
    * @param {*} user_id 
    * @param {*} comment 
+   * @param {*} score
    * @returns {Object}
    * * comment: comment
    */
-  addComment: async function(product_id = 1, user_id = 1, comment = '') {
-    let query = `
-      INSERT INTO reviews(comment, user_id, product_id)
+  addComment: async function(product_id = 1, user_id = 1, comment = '', score = '') {
+ 
+    if(typeof score !== 'undefined' && score !== ''){
+      console.log("primer if")
+      var query = `
+      INSERT INTO reviews(user_id, product_id, score, comment)
+      VALUES
+      (?,?,?,?);
+      `
+      var arguments = [user_id, product_id, score, comment]
+    }else{
+      console.log("segundo if")
+      var query = `
+      INSERT INTO reviews(user_id, product_id, comment)
       VALUES
       (?,?,?);
       `
-    let arguments = [comment, user_id, product_id]
+      var arguments = [user_id, product_id, comment]
+    }
+
+
+    console.log(arguments)
     let addComment = await mariadb.query(query, arguments)
-    //console.log(`${product_id} y comment ${comment}\n user is ${user_id}`);
+    console.log("pipo2")
+    console.log(`${product_id} y comment ${comment}\n user is ${user_id}`)
+/*     console.log(typeof score !== 'undefined')
+    console.log(score !== '') */
+    console.log("entro a addComment")
     return {
       comment: comment
     }

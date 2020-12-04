@@ -28,7 +28,7 @@ create table if not exists users (
 
 create table if not exists reviews (
 	id int unsigned primary key auto_increment,
-    score tinyint unsigned,
+    score float(4, 2) unsigned,
     comment varchar(300),
     user_id int unsigned not null,
     product_id int unsigned not null,

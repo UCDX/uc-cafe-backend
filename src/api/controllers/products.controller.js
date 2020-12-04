@@ -20,22 +20,21 @@ module.exports = {
   },
 
   addComment: async function(req, res) {
-/**
- * params <- :id/(url)?¿?¿?
- * body <- postman body
- * query <- :id/(url)?¿?¿
- **/
+
+    console.log(typeof req.body.score !== 'undefined')
     try {
-      let result = await productService.addComment(
-        req.params.product_id,
-        req.body.user_id,
-        req.body.comment
-      )
-      console.log(`Dentro de controller ${req.params.product_id} y ${req.body.user_id}`)
+        let result = await productService.addComment(
+          req.params.product_id,
+          req.body.user_id,
+          req.body.comment,
+          req.body.score
+        )  
+    
       res.status(200).json({
         comment: result.comment
       })
     } catch (error) {
+      console.log("miaauauuuuuu")
       res.status(500).end()
     }
   }
