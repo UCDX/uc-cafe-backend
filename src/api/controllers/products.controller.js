@@ -61,5 +61,21 @@ module.exports = {
     } catch (error) {
       res.status(500).end()
     }
+  },
+
+  getProduct: async function(req, res) {
+    try {
+      let result = await productService.getProduct(req.params.product_id)
+
+      if (result) {
+        return res.status(200).json({
+          product: result
+        })
+      } 
+      res.status(404).end()
+
+    } catch (error) {
+      res.status(500).end()
+    }
   }
 }
