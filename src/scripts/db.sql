@@ -40,6 +40,7 @@ create table if not exists reviews (
 create table if not exists purchases (
 	id int unsigned primary key auto_increment,
     user_id int unsigned not null,
+    created_at datetime default now(),
     
     foreign key(user_id) references users(id)
 );

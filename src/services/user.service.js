@@ -15,6 +15,6 @@ module.exports = {
       LIMIT 1;
     `
     const result = await mariadb.query(query, [username, passwd])
-    return result[0]
+    return result[0].id
   }
 }
