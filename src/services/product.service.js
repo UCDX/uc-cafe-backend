@@ -146,5 +146,28 @@ module.exports = {
       no_reviews: getCountReviews[0]["COUNT(comment)"],
       comments: arr
     }
+  },
+
+  /***
+   * Gets the categories of all products
+   * @returns {Object}
+   *  * categories:  Object
+   */
+  getCategories: async function(){
+    let queryGetCtg = `
+    SELECT * 
+    FROM categories 
+    ;`
+
+    let getCtg = await mariadb.query(queryGetCtg)
+
+    let arr = []
+    getCtg.forEach((val) => {
+        arr.push(val)
+    });
+    
+    return {
+      categories: arr
+    }
   }
 }
