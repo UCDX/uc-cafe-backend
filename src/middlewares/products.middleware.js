@@ -36,17 +36,16 @@ module.exports = {
 
   checkAddCommentParams: function(req, res, next) {
     let validator = new Validator()
-    //console.log("MIDDLEWARE\n");
 
     req.params.product_id = parseNumberIfApplicableInt(req.params.product_id)
-    req.body.user_id = parseNumberIfApplicableInt(req.body.user_id)
+    //req.body.user_id = parseNumberIfApplicableInt(req.body.user_id)
     
     if(typeof req.body.score !== 'undefined'){
       req.body.score = parseNumberIfApplicable(req.body.score)
     }
 
-    if(validator(req.body.user_id).isNumber()
-        && validator(req.body.product_id).isNumber()){
+    req.body.user_id = req.api.user_id
+    if(validator(req.body.product_id).isNumber()){
       next()
     }
 
