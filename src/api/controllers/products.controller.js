@@ -39,12 +39,24 @@ module.exports = {
   getReviews: async function(req, res) {
     try {
         let result = await productService.getReviews(
-          req.params.product_id,
+          req.params.product_id
         )  
       res.status(200).json({
         score: result.score,
         no_reviews: result.no_reviews,
         comments: result.comments
+      })
+    } catch (error) {
+      res.status(500).end()
+    }
+  },
+
+  getCategories: async function(req, res) {
+    try {
+        let result = await productService.getCategories()  
+
+      res.status(200).json({
+        categories: result.categories
       })
     } catch (error) {
       res.status(500).end()

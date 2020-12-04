@@ -15,5 +15,10 @@ module.exports = {
   getReviews: [
     productMidd.checkGetReviews,
     productCtrl.getReviews
+  ],
+
+  getCategories: [
+    //without middleware because theres no parameters
+    productCtrl.getCategories
   ]
 }

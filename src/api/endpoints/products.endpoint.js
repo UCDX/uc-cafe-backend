@@ -7,4 +7,6 @@ router.get('/search', productFlows.searchProducts)
 
 router.get('/product/:product_id/review', productFlows.getReviews)
 
+router.get('/product/categories', productFlows.getCategories)
+
 module.exports = router

@@ -146,5 +146,24 @@ module.exports = {
       no_reviews: getCountReviews[0]["COUNT(comment)"],
       comments: arr
     }
+  },
+
+  getCategories: async function(){
+    let queryGetCtg = `
+    SELECT * 
+    FROM categories 
+    ;`
+
+    let getCtg = await mariadb.query(queryGetCtg)
+
+    let arr = []
+    getCtg.forEach((val) => {
+        arr.push(val)
+        //console.log(val)
+    });
+    
+    return {
+      categories: arr//"cambia el valor en el codigo bro"
+    }
   }
 }
