@@ -1,5 +1,6 @@
 const productCtrl = require('../controllers/products.controller')
 const productMidd = require('../../middlewares/products.middleware')
+const generalMidd = require('../../middlewares/general')
 
 module.exports = {
   searchProducts: [
@@ -8,6 +9,7 @@ module.exports = {
   ],
 
   addComment: [
+    generalMidd.userAuth,
     productMidd.checkAddCommentParams,
     productCtrl.addComment
   ],
