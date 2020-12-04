@@ -148,6 +148,11 @@ module.exports = {
     }
   },
 
+  /***
+   * Gets the categories of all products
+   * @returns {Object}
+   *  * categories:  Object
+   */
   getCategories: async function(){
     let queryGetCtg = `
     SELECT * 
@@ -159,11 +164,10 @@ module.exports = {
     let arr = []
     getCtg.forEach((val) => {
         arr.push(val)
-        //console.log(val)
     });
     
     return {
-      categories: arr//"cambia el valor en el codigo bro"
+      categories: arr
     }
   }
 }
