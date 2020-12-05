@@ -24,11 +24,14 @@
   },
   "homepage": "https://gitlab.com/ucdx-projects/uc-cafe-backend#readme",
   "dependencies": {
+    "better-validator": "^2.1.9",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jwt-simple": "^0.5.6",
     "mariadb": "^2.5.1"
   },
   "devDependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.6"
   }
 }
